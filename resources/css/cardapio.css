@@ -1,0 +1,40 @@
+/* Cardápio - Estilos Custom */
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.btn-increment, .btn-decrement {
+    transition: all 0.2s ease;
+}
+
+.btn-increment:hover, .btn-decrement:hover {
+    transform: scale(1.1);
+}
+
+.price-tag {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff6600;
+}
+
+.product-image {
+    object-fit: cover;
+    height: 200px;
+}
+
+.cart-summary {
+    position: sticky;
+    top: 20px;
+}
+
+@media (max-width: 640px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
