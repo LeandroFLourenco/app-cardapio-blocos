@@ -81,6 +81,74 @@
         </div>
     </div>
 
+    <!-- Modal de Seleção de Pagamento -->
+    <div id="modalPagamento" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <h2 class="text-2xl font-bold mb-6">💳 Forma de Pagamento</h2>
+            
+            <!-- Opções de Pagamento -->
+            <div class="space-y-3 mb-6">
+                <label class="flex items-center p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-orange-500 transition">
+                    <input type="radio" name="pagamento" value="pix" class="mr-3" onchange="selecionarPagamento('pix')">
+                    <span class="text-lg">📱 PIX</span>
+                </label>
+
+                <label class="flex items-center p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-orange-500 transition">
+                    <input type="radio" name="pagamento" value="credito" class="mr-3" onchange="selecionarPagamento('credito')">
+                    <span class="text-lg">💳 Cartão de Crédito</span>
+                </label>
+
+                <label class="flex items-center p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-orange-500 transition">
+                    <input type="radio" name="pagamento" value="debito" class="mr-3" onchange="selecionarPagamento('debito')">
+                    <span class="text-lg">🏧 Cartão de Débito</span>
+                </label>
+
+                <label class="flex items-center p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-orange-500 transition">
+                    <input type="radio" name="pagamento" value="dinheiro" class="mr-3" onchange="selecionarPagamento('dinheiro')">
+                    <span class="text-lg">💵 Dinheiro</span>
+                </label>
+            </div>
+
+            <!-- Campo de Dinheiro (Aparece só se escolher Dinheiro) -->
+            <div id="campoTroco" class="hidden mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    💰 Quanto você vai dar?
+                </label>
+                <input 
+                    type="number" 
+                    id="valorDinheiro" 
+                    placeholder="Ex: 100" 
+                    step="0.01"
+                    min="0"
+                    class="w-full p-2 border border-gray-300 rounded mb-3 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    oninput="calcularTroco()"
+                >
+                
+                <div id="infoTroco" class="hidden">
+                    <div class="bg-white p-3 rounded border-l-4 border-green-500">
+                        <div class="text-sm text-gray-600">Total a pagar:</div>
+                        <div class="text-lg font-bold text-gray-800" id="totalPagar">R$ 0,00</div>
+                    </div>
+                    <div class="bg-white p-3 rounded border-l-4 border-blue-500 mt-2">
+                        <div class="text-sm text-gray-600">Valor do troco:</div>
+                        <div class="text-lg font-bold text-blue-600" id="valorTroco">R$ 0,00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botões -->
+            <div class="flex flex-col gap-3">
+                <button onclick="confirmarPagamento()" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-lg transition">
+                    ✅ Confirmar Pagamento
+                </button>
+
+                <button onclick="fecharModalPagamento()" class="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 rounded-lg transition">
+                    ❌ Voltar
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal de Confirmação do Pedido -->
     <div id="modalPedido" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
@@ -261,8 +329,96 @@ function atualizarObservacoes(id, textarea) {
     cart.updateObservacoes(id, textarea.value);
 }
 
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// FUNÇÕES DE PAGAMENTO
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// Variável global para armazenar forma de pagamento
+let metodoPagamento = null;
+let valorDinheiro = 0;
+
+// Função: Abrir modal de pagamento
+function abrirModalPagamento() {
+    const itens = cart.getCartData();
+    
+    if (itens.length === 0) {
+        alert('❌ Adicione itens ao carrinho!');
+        return;
+    }
+    
+    metodoPagamento = null;
+    valorDinheiro = 0;
+    document.getElementById('modalPagamento').classList.remove('hidden');
+    document.getElementById('campoTroco').classList.add('hidden');
+}
+
+// Função: Selecionar forma de pagamento
+function selecionarPagamento(metodo) {
+    metodoPagamento = metodo;
+    const campoTroco = document.getElementById('campoTroco');
+    
+    if (metodo === 'dinheiro') {
+        campoTroco.classList.remove('hidden');
+        document.getElementById('valorDinheiro').focus();
+    } else {
+        campoTroco.classList.add('hidden');
+        document.getElementById('valorDinheiro').value = '';
+        document.getElementById('infoTroco').classList.add('hidden');
+    }
+}
+
+// Função: Calcular troco
+function calcularTroco() {
+    const valorInput = parseFloat(document.getElementById('valorDinheiro').value) || 0;
+    const total = parseFloat(cart.getTotal());
+    
+    valorDinheiro = valorInput;
+    
+    if (valorInput >= total) {
+        const troco = (valorInput - total).toFixed(2);
+        document.getElementById('totalPagar').textContent = `R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+        document.getElementById('valorTroco').textContent = `R$ ${parseFloat(troco).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+        document.getElementById('infoTroco').classList.remove('hidden');
+    } else {
+        document.getElementById('infoTroco').classList.add('hidden');
+    }
+}
+
+// Função: Confirmar pagamento e ir para resumo
+function confirmarPagamento() {
+    if (!metodoPagamento) {
+        alert('❌ Selecione uma forma de pagamento!');
+        return;
+    }
+    
+    if (metodoPagamento === 'dinheiro') {
+        const total = parseFloat(cart.getTotal());
+        if (valorDinheiro < total) {
+            alert('❌ Insira um valor maior ou igual ao total!');
+            return;
+        }
+    }
+    
+    // Fechar modal de pagamento e abrir modal de resumo
+    document.getElementById('modalPagamento').classList.add('hidden');
+    mostrarResumoPedido(); // ← CHAMANDO FUNÇÃO DE RESUMO
+}
+
+// Função: Fechar modal de pagamento
+function fecharModalPagamento() {
+    document.getElementById('modalPagamento').classList.add('hidden');
+    metodoPagamento = null;
+    valorDinheiro = 0;
+}
+
 // Função: Enviar pedido
+// Função: Enviar pedido (nova - só abre modal de pagamento)
 function enviarPedido() {
+    abrirModalPagamento();
+}
+
+// Função: Mostrar resumo do pedido com pagamento
+function mostrarResumoPedido() {
     const itens = cart.getCartData();
     
     if (itens.length === 0) {
@@ -270,7 +426,7 @@ function enviarPedido() {
         return;
     }
 
-    // Gerar mensagem WhatsApp
+    // Gerar mensagem WhatsApp COM informações de pagamento
     const mensagemWhatsapp = gerarMensagemWhatsapp(itens);
     
     // Preencher modal com resumo
@@ -292,6 +448,12 @@ function enviarPedido() {
     <div class="mt-3 pt-3 border-t-2 font-bold text-lg">
         Total: R$ ${cart.getTotal().replace('.', ',')}
     </div>
+    
+    <div class="mt-2 pt-2 border-t-2">
+        <div class="text-sm font-semibold text-gray-700">Pagamento: ${getNomePagamento(metodoPagamento)}</div>
+        ${metodoPagamento === 'dinheiro' ? `<div class="text-sm text-gray-700">Troco: R$ ${calcularValorTroco().toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>` : ''}
+    </div>
+    
     <div class="mt-2 p-3 bg-blue-50 rounded text-xs text-blue-700">
         <strong>Mensagem WhatsApp:</strong>
         <div id="mensagemPreview" class="mt-2 whitespace-pre-wrap bg-white p-2 rounded border">${mensagemWhatsapp}</div>
@@ -302,7 +464,7 @@ function enviarPedido() {
     modal.classList.remove('hidden');
 }
 
-// Função: Gerar mensagem formatada
+// Função: Gerar mensagem formatada (ATUALIZADA com pagamento)
 function gerarMensagemWhatsapp(itens) {
     let mensagem = "🛒 *PEDIDO DO CARDÁPIO*\n\n";
     
@@ -318,12 +480,40 @@ function gerarMensagemWhatsapp(itens) {
     mensagem += "━━━━━━━━━━━━━━━━━━\n";
     mensagem += `*TOTAL: R$ ${cart.getTotal().replace('.', ',')}*\n`;
     mensagem += "━━━━━━━━━━━━━━━━━━\n\n";
-    mensagem += "Obrigado! 😊";
+    
+    // ← NOVO: Adicionar forma de pagamento
+    mensagem += `*💳 Forma de Pagamento:* ${getNomePagamento(metodoPagamento)}\n`;
+    
+    if (metodoPagamento === 'dinheiro') {
+        const troco = calcularValorTroco();
+        mensagem += `*💵 Dinheiro:* R$ ${valorDinheiro.toLocaleString('pt-BR', {minimumFractionDigits: 2})}\n`;
+        mensagem += `*🔄 Troco:* R$ ${troco.toLocaleString('pt-BR', {minimumFractionDigits: 2})}\n`;
+    }
+    
+    mensagem += "\nObrigado! 😊";
     
     return mensagem;
 }
 
-// Função: Copiar mensagem para clipboard
+// Função: Converter código de pagamento para nome legível
+function getNomePagamento(metodo) {
+    const nomes = {
+        'pix': '📱 PIX',
+        'credito': '💳 Cartão de Crédito',
+        'debito': '🏧 Cartão de Débito',
+        'dinheiro': '💵 Dinheiro'
+    };
+    return nomes[metodo] || 'Não especificado';
+}
+
+// Função: Calcular valor do troco
+function calcularValorTroco() {
+    if (metodoPagamento !== 'dinheiro') return 0;
+    const total = parseFloat(cart.getTotal());
+    return Math.max(0, valorDinheiro - total);
+}
+
+// Função: Copiar mensagem para clipboard (ATUALIZADA)
 function copiarMensagemWhatsapp() {
     const preview = document.getElementById('mensagemPreview');
     const texto = preview.textContent;
