@@ -1,1 +1,6 @@
-<h1>Página de Teste</h1>
+<h1>Cardápio do Dia</h1>
+<ul>
+    @foreach($produtos as $produto)
+        <li>{{ $produto }}</li>
+    @endforeach
+</ul>

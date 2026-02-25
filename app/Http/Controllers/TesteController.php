@@ -8,6 +8,11 @@ class TesteController extends Controller
 {
     public function index()
     {
-        return view('teste');
+        $produtos = [
+            "Produto 1",
+            "Produto 2",
+            "Produto 3"
+        ];
+        return view('teste', compact('produtos'));
     }
 }
