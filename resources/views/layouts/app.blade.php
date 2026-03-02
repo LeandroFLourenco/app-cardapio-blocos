@@ -9,7 +9,7 @@
 
     <header class="bg-white shadow-md p-4">
         <div class="max-w-4xl mx-auto flex justify-between">
-            <h2 class="text-xl font-bold">App Cardápio</h2>
+            <h2 class="text-xl font-bold">App Cardápio Estudo</h2>
 
             <nav class="space-x-4">
                 <a href="/" class="text-blue-600 hover:underline">Home</a>
