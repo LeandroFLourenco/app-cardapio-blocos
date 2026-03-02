@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Pagina Teste')
+@section('title', 'Testando Blade') <!-- muda o titulo da aba da página -->
 @section('content')
     <h1>Cardápio</h1>
     <ul>
