@@ -6,5 +6,8 @@ use Illuminate\Http\Request;
 
 class PaginaController extends Controller
 {
-    //
+    public function sobre()
+    {
+        return view('sobre');
+    }
 }
