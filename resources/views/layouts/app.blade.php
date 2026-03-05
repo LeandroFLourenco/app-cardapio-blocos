@@ -14,6 +14,7 @@
             <nav class="space-x-4">
                 <a href="/" class="text-blue-600 hover:underline">Home</a>
                 <a href="/teste" class="text-blue-600 hover:underline">Teste</a>
+                <a href="/sobre" class="text-blue-600 hover:underline">Sobre</a>
             </nav>
         </div>
     </header>
