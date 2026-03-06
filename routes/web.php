@@ -9,8 +9,8 @@ use App\Http\Controllers\PaginaController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/cardapio', [CardapioController::class, 'index'])->name('cardapio.index');
 Route::post('/pedidos', [CardapioController::class, 'store'])->name('pedidos.store');
-Route::get('/teste', [TesteController::class, 'index']);
+Route::get('/teste', [TesteController::class, 'index'])->name('teste');
 
 
 // Route::get('/sobre', function () {return view('sobre');})->name('sobre'); // Rota antiga, substituída pela nova abaixo 
-Route::get('/sobre', [PaginaController::class, 'sobre']);
+Route::get('/sobre', [PaginaController::class, 'sobre'])->name('sobre'); // Rota nova usando o controlador PaginaController
