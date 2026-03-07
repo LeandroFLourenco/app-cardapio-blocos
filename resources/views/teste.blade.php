@@ -11,7 +11,9 @@
 
             <p class="text-orange-600 font-bold">R$ {{ $produto['preco'] }}</p>
 
-            <button class="mt-3 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">Adicionar</button>
+            <button class="mt-3 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600" onclick="adicionarProduto('{{ $produto['nome'] }}', {{ $produto['preco'] }})">
+                Adicionar
+            </button>
         </div>
 
     @endforeach
