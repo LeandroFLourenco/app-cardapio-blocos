@@ -20,4 +20,13 @@
 
 </div>
 
+<script>
+
+function adicionarProduto(nome, preco)
+{
+    alert("Produto: " + nome + " - Preço: R$ " + preco);
+}
+
+</script>
+
 @endsection
