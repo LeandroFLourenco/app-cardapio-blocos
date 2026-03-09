@@ -21,11 +21,23 @@
 </div>
 
 <script>
+let totalItens = 0;
 
 function adicionarProduto(nome, preco)
 {
-    alert("Produto: " + nome + " - Preço: R$ " + preco);
+    totalItens++;
+
+    console.log("Produto:", nome);
+    console.log("Preço:", preco);
+    console.log("Total clicado:", totalItens);
+    alert("Você adicionou: " + nome + "\nPreço: R$ " + preco + "\nItens clicados: " + totalItens);
 }
+
+
+// function adicionarProduto(nome, preco)
+// {
+//     alert("Produto: " + nome + " - Preço: R$ " + preco);
+// }
 
 </script>
 
