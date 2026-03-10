@@ -2,6 +2,9 @@
 @section('title', 'Testando Blade') <!-- muda o titulo da aba da página -->
 @section('content')
 <h1 class="text-2xl font-bold">Cardápio</h1>
+<p class="mb-4 font-bold">
+    Itens no carrinho: <span id="contador-carrinho">0</span>
+</p>
 <div class="grid grid-cols-3 gap-6">
 
     @foreach($produtos as $produto)
@@ -26,6 +29,8 @@ let totalItens = 0;
 function adicionarProduto(nome, preco)
 {
     totalItens++;
+
+    document.getElementById("contador-carrinho").innerText = totalItens;
 
     console.log("Produto:", nome);
     console.log("Preço:", preco);
