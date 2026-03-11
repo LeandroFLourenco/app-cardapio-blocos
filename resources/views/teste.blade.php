@@ -5,6 +5,9 @@
 <p class="mb-4 font-bold">
     Itens no carrinho: <span id="contador-carrinho">0</span>
 </p>
+
+<p id="mensagem-produto" class="mb-4 text-green-600 font-semibold"></p>
+
 <div class="grid grid-cols-3 gap-6">
 
     @foreach($produtos as $produto)
