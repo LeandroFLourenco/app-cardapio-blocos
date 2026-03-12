@@ -5,6 +5,14 @@
 <p class="mb-4 font-bold">
     Itens no carrinho: <span id="contador-carrinho">0</span>
 </p>
+
+<h2 class="text-lg font-semibold mt-6">Carrinho</h2>
+
+<ul id="lista-carrinho" class="list-disc ml-6 mt-2">
+</ul>
+
+<p id="mensagem-produto" class="mb-4 text-green-600 font-semibold"></p>
+
 <div class="grid grid-cols-3 gap-6">
 
     @foreach($produtos as $produto)
@@ -25,13 +33,23 @@
 
 <script>
 let totalItens = 0;
+let carrinho = [];
 
 function adicionarProduto(nome, preco)
 {
     totalItens++;
+    carrinho.push(nome);
 
     document.getElementById("contador-carrinho").innerText = totalItens;
 
+    let lista = document.getElementById("lista-carrinho");
+
+    let item = document.createElement("li");
+
+    item.innerText = nome + " - R$ " + preco;
+
+    lista.appendChild(item);
+    console.log("Carrinho:", carrinho);
     console.log("Produto:", nome);
     console.log("Preço:", preco);
     console.log("Total clicado:", totalItens);
