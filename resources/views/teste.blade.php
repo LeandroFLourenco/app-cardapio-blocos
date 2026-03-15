@@ -39,6 +39,7 @@ Total: R$ <span id="total-carrinho">0</span>
 let totalItens = 0;
 let carrinho = [];
 let totalCarrinho = 0;
+let carrinhoSalvo = localStorage.getItem("carrinho");
 
 function adicionarProduto(nome, preco)
 {
