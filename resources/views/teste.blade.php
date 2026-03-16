@@ -39,7 +39,15 @@ Total: R$ <span id="total-carrinho">0</span>
 let totalItens = 0;
 let carrinho = [];
 let totalCarrinho = 0;
+
 let carrinhoSalvo = localStorage.getItem("carrinho");
+
+if (carrinhoSalvo) {
+    carrinho = JSON.parse(carrinhoSalvo);
+    totalItens = carrinho.length;
+
+    document.getElementById("contador-carrinho").innerText = totalItens;
+}
 
 function adicionarProduto(nome, preco)
 {
