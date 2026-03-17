@@ -6,6 +6,10 @@
     Itens no carrinho: <span id="contador-carrinho">0</span>
 </p>
 
+<p class="mb-4 font-bold">
+Total: R$ <span id="total-carrinho">0</span>
+</p>
+
 <h2 class="text-lg font-semibold mt-6">Carrinho</h2>
 
 <ul id="lista-carrinho" class="list-disc ml-6 mt-2">
@@ -34,13 +38,16 @@
 <script>
 let totalItens = 0;
 let carrinho = [];
+let totalCarrinho = 0;
 
 function adicionarProduto(nome, preco)
 {
     totalItens++;
     carrinho.push(nome);
+    totalCarrinho += preco;
 
     document.getElementById("contador-carrinho").innerText = totalItens;
+    document.getElementById("total-carrinho").innerText = totalCarrinho;
 
     let lista = document.getElementById("lista-carrinho");
 
@@ -53,7 +60,12 @@ function adicionarProduto(nome, preco)
     console.log("Produto:", nome);
     console.log("Preço:", preco);
     console.log("Total clicado:", totalItens);
-    alert("Você adicionou: " + nome + "\nPreço: R$ " + preco + "\nItens clicados: " + totalItens);
+    alert(
+"Você adicionou: " + nome +
+"\nPreço: R$ " + preco +
+"\nItens clicados: " + totalItens +
+"\nTotal do carrinho: R$ " + totalCarrinho
+);
 }
 
 
