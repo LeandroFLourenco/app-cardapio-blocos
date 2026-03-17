@@ -40,10 +40,20 @@ let totalItens = 0;
 let carrinho = [];
 let totalCarrinho = 0;
 
+let carrinhoSalvo = localStorage.getItem("carrinho");
+
+if (carrinhoSalvo) {
+    carrinho = JSON.parse(carrinhoSalvo);
+    totalItens = carrinho.length;
+
+    document.getElementById("contador-carrinho").innerText = totalItens;
+}
+
 function adicionarProduto(nome, preco)
 {
     totalItens++;
     carrinho.push(nome);
+    localStorage.setItem("carrinho", JSON.stringify(carrinho));
     totalCarrinho += preco;
 
     document.getElementById("contador-carrinho").innerText = totalItens;
@@ -60,12 +70,13 @@ function adicionarProduto(nome, preco)
     console.log("Produto:", nome);
     console.log("Preço:", preco);
     console.log("Total clicado:", totalItens);
+
     alert(
-"Você adicionou: " + nome +
-"\nPreço: R$ " + preco +
-"\nItens clicados: " + totalItens +
-"\nTotal do carrinho: R$ " + totalCarrinho
-);
+            "Você adicionou: " + nome +
+            "\nPreço: R$ " + preco +
+            "\nItens clicados: " + totalItens +
+            "\nTotal do carrinho: R$ " + totalCarrinho
+        );
 }
 
 
