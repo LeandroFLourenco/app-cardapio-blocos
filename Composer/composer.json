@@ -1,0 +1,11 @@
+{
+    "name": "estudo/composer",
+    "description": "Instalacao para estudo",
+    "authors": [
+        {
+            "name": "Leandro",
+            "email": "leandrinlourenco@gmail.com"
+        }
+    ],
+    "require": {}
+}
