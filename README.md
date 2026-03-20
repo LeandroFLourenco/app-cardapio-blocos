@@ -11,7 +11,7 @@ Sistema web para gerenciamento de cardápios por blocos, desenvolvido com PHP e 
 
 O App Cardápio Blocos é uma aplicação web que permite cadastrar, organizar e gerenciar cardápios divididos por blocos ou categorias.
 
-A proposta do sistema é oferecer uma estrutura simples, porém escalável, utilizando a arquitetura MVC do Laravel. O projeto pode evoluir para um sistema mais robusto, com autenticação, controle de usuários e geração de relatórios.
+A proposta do sistema é exclusivamente para estudos, contendo arquivos relacionados a testes e conhecimento geral
 
 ---
 
