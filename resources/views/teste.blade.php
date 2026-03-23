@@ -52,7 +52,8 @@ if (carrinhoSalvo) {
 function adicionarProduto(nome, preco)
 {
     totalItens++;
-    carrinho.push(nome);
+    carrinho.push({nome: nome,preco: preco});
+    
     localStorage.setItem("carrinho", JSON.stringify(carrinho));
     totalCarrinho += preco;
 
