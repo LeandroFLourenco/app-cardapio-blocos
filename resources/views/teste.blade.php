@@ -43,16 +43,34 @@ let totalCarrinho = 0;
 let carrinhoSalvo = localStorage.getItem("carrinho");
 
 if (carrinhoSalvo) {
+
     carrinho = JSON.parse(carrinhoSalvo);
+
+    let lista = document.getElementById("lista-carrinho");
+
+    carrinho.forEach(function(produto){
+
+        let item = document.createElement("li");
+
+        item.innerText = produto.nome + " - R$ " + produto.preco;
+
+        lista.appendChild(item);
+
+        totalCarrinho += produto.preco;
+
+    });
+
     totalItens = carrinho.length;
 
     document.getElementById("contador-carrinho").innerText = totalItens;
+    document.getElementById("total-carrinho").innerText = totalCarrinho;
 }
 
 function adicionarProduto(nome, preco)
 {
     totalItens++;
-    carrinho.push(nome);
+    carrinho.push({nome: nome,preco: preco});
+
     localStorage.setItem("carrinho", JSON.stringify(carrinho));
     totalCarrinho += preco;
 
